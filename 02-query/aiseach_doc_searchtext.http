@@ -1,0 +1,8 @@
+POST https://{{$dotenv AZURE_AISEARCH_SERVICE_NAME}}.search.windows.net/indexes/{{$dotenv AZURE_AISEARCH_INDEX_NAME}}/docs/search?api-version={{$dotenv AZURE_AISEARCH_API_VERSION}}
+Content-Type: application/json
+api-key: {{$dotenv AZURE_AISEARCH_ADMIN_KEY}}
+
+{
+    "search": "*",
+    "select": "id, title"
+}

@@ -1,0 +1,51 @@
+PUT https://{{$dotenv AZURE_AISEARCH_SERVICE_NAME}}.search.windows.net/indexes/{{$dotenv AZURE_AISEARCH_INDEX_NAME}}?api-version={{$dotenv AZURE_AISEARCH_API_VERSION}}&allowIndexDowntime=true
+Content-Type: application/json
+api-key: {{$dotenv AZURE_AISEARCH_ADMIN_KEY}}
+
+{
+  "name": "{{$dotenv AZURE_AISEARCH_INDEX_NAME}}",
+  "fields": [
+    {
+      "name": "id",
+      "type": "Edm.String",
+      "key": true,
+      "filterable": true
+    },
+    {
+      "name": "title",
+      "type": "Edm.String",
+      "searchable": true,
+      "filterable": true,
+      "sortable": true,
+      "retrievable": true
+    },
+    {
+      "name": "content",
+      "type": "Edm.String",
+      "searchable": true,
+      "retrievable": true
+    },
+    {
+      "name": "contentVector",
+      "type": "Collection(Edm.Single)",
+      "searchable": true,
+      "retrievable": true,
+      "dimensions": 1536,
+      "vectorSearchConfiguration": "vectorConfig"
+    }
+  ],
+  "vectorSearch": {
+    "algorithmConfigurations": [
+      {
+        "name": "vectorConfig",
+        "kind": "hnsw",
+        "hnswParameters": {
+          "m": 4,
+          "efConstruction": 400,
+          "efSearch": 500,
+          "metric": "cosine"
+        }
+      }
+    ]
+  }
+}
